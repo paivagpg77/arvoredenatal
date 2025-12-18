@@ -1,29 +1,39 @@
-from colorama import Fore, Style, init
-import time, os, random
+import customtkinter as ctk
+import random
 
-init()
+ctk.set_appearance_mode('dark')
+ctk.set_default_color_theme('green')
 
-width = 21
-cores = [Fore.RED, Fore.GREEN, Fore.YELLOW, Fore.BLUE, Fore.MAGENTA]
+app = ctk.CTk()
+app.title("Árvore de Natal 🎄")
+app.geometry('400x500')
+app.resizable(False,False)
 
-while True:
-    os.system('cls') 
+fonte = ctk.CTkFont(family='Courier New ', size=16)
 
+label_arvore = ctk.CTkLabel(app, text='', font = fonte, justify='left')
 
-    print(Fore.YELLOW + "★".center(17))
+label_arvore.pack(pady=20)
+cores = ['red', 'green','yellow', 'blue', 'magenta']
 
+def gerar_arvore():
+    width = 21
+    texto = ''
 
-    for i in range(1, 20, 2):
-        cor = random.choice(cores)
-        print((cor + "*" * i).center(width))
+    texto += "★".center(width) + "\n"
+    for i in range(20):
+        texto += ('*'*i).center(width)+'\n'
+    texto += "||".center(27) + "\n"
+    texto += "||".center(27) + "\n"
+    texto += "======".center(22) + "\n\n"
+    texto += "Feliz Natal!!!".center(width)
 
+    return texto
 
-    print(Fore.RED + "||".center(18))
-    print(Fore.RED + "||".center(18))
+def piscar():
+    cor = random.choice(cores)
+    label_arvore.configure(text = gerar_arvore(),text_color=cor)
+    app.after(500,piscar)
 
-    print(Fore.YELLOW + "======".center(18))
-
-  
-    print("\n" + Fore.GREEN + "Feliz Natal!!!".center(width))
-
-    time.sleep(0.5)  
+piscar()
+app.mainloop()
